@@ -4,6 +4,41 @@ use std::fs;
 use std::path::Path;
 
 pub fn part1() {
+    let (v1, v2) = buildvectors();
+
+    // looping to find and sum distances
+    let mut sum = 0;
+    let mut index = 0;
+    for i in v1 {
+        let diff = (i - v2[index]).abs();
+        sum = sum + diff;
+        index = index + 1;
+    }
+
+    println!("Total list distance: {}", sum);
+}
+
+
+pub fn part2() {
+    let (v1, v2) = buildvectors();
+
+    let mut score = 0;
+    for i in &v1 {
+        let mut times_found = 0;
+        for j in &v2 {
+            if i == j {
+                times_found = times_found + 1;
+            }
+        }
+        score = score + (i * times_found);
+    }
+
+    println!("Total similarity score: {}", score);
+}
+
+
+// builds sorted vectors from file numbers.txt
+fn buildvectors() -> (Vec<i32>, Vec<i32>) {
     // vectors to be sorted
     let mut v1: Vec<i32> = Vec::new();
     let mut v2: Vec<i32> = Vec::new();
@@ -33,19 +68,10 @@ pub fn part1() {
     }
 
     // thank you rust for having built-in sorting
-    // i am lazy and did not want to implement that
+    // i am lazy and did not want to implement that tonight
     v1.sort();
     v2.sort();
 
-    // looping to find and sum distances
-    let mut sum = 0;
-    let mut index = 0;
-    for i in v1 {
-        let diff = (i - v2[index]).abs();
-        sum = sum + diff;
-        index = index + 1;
-    }
-
-    println!("Total list distance: {}", sum);
-
+    // return tuple
+    (v1, v2)
 }
